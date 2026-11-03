@@ -1,9 +1,38 @@
 # Working with UK Data Service datasets
 
-I have always found navigating [UKDS](https://ukdataservice.ac.uk/) datasets difficult. The datasets are large and unwieldy. Extracting files can be tedious and draining. In this project, I define some helpers to make the job of locating, recoding and renaming variables automatable.
+[UKDS](https://ukdataservice.ac.uk/) datasets such as the **Labour Force Survey** and **Understanding Society** can be difficult to navigate. Locating, recoding and renaming variables can be challenging because the documentation is online or in inaccessible rtf files. Extracting files and searching for compatible datasets can also be problematic. The set of functions in this (evolving) project aims to make the automation of at least some of these tasks a touch more accessible. The functionality in **Python** and **R** is, to all intents and purposes, identical.
 
-In **Python**, I construct some functions to list files in a zip archive and to extract individual files. Two other useful functions parse the archived data dictionary and construct a Python dictionary mapping variables onto column locations and variable labels, and another Python dictionary mapping variables onto the respective dictionaries of code and label pairs.
+## Getting the UKDS data
 
-An **R** script is being made and will be up shortly.
+UKDS surveys are available from the [UK Data Service](https://ukdataservice.ac.uk/). I have no permission to disseminate the datasets. Anybody interested must register with the service and download the files directly.
 
-This is by no means a comprehensive project but rather an archive of useful helpers that hopefully make working with UKDS datasets such as the **Labour Force Survey** and **Understanding Society** a bit easier.
+## These notebooks
+
+The **Labour Force Survey** and **Understanding Society** datasets are standardised, and the data dictionaries are stored in a nested zip file. All functionality in the notebooks has been tested on the original LFS zip archives containing tab-delimited files and is loop-ready.
+
+The notebooks contain
+* archive itemising functions (for those who do not extract the original UKDS files but want a list of contents)
+* file extractors (for those who would like to unzip specific files)
+* variable itemising functions (data dictionary extractors mapping variable names onto column position and variable labels)
+* code itemising functions (data dictionary extractors mapping variable names onto variable-specific code-label pairs)
+* `read_tab` functions in `tidyverse` with `janitor`-cleaned variable names compatible with the variable and code lists
+* `read_tab` functions in `pandas` and `polars` with `skimpy`-cleaned variable names compatible with the variable and code dictionaries
+
+Note that some generic Python functionality has been hived off into a separate `da_helpers.py` file.
+
+Further note that this is work in progress rather than a finished package.
+
+### Tabled functions
+
+| | Python | R |
+|---|---|---|
+| List zip archive contents | `itemise_archive` | `itemise_archive` |
+| Open or extract a file from an archive | `extract_file`, `copy_archived_file` | `extract_file`, `copy_archived_file` |
+| Read the rtf data dictionary as text | `read_data_dictionary` | `read_data_dictionary` |
+| Variable -> (column position, label) | `variable_dictionary` | `variable_dictionary` |
+| Variable -> {code: label} | `code_dictionary` | `code_dictionary` |
+| Read a `.tab` file with cleaned names | `read_tab_pd`, `read_tab_pl` | `read_tab` |
+
+## See also
+
+* [Labour Force Survey user guidance](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/methodologies/labourforcesurveyuserguidance)
